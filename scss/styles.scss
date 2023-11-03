@@ -1,0 +1,53 @@
+//Imports
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;400&display=swap');
+
+//Variables
+
+$blue: #02b0d4;
+$white: #fff;
+$black: #242332;
+
+//Change Box Model
+*,
+*:before,
+*:after {
+   box-sizing: border-box;
+}
+
+//Background
+html {
+   background-image: url('../images/site/checkerboard.jpg');
+}
+
+//Page Body
+body {
+   font-family: 'Roboto', sans-serif;
+   background-color: $white;
+   border: 5px solid $blue;
+   border-radius: 10px;
+}
+
+//Nav bar
+
+nav {
+   background-color: $black;
+   ul {
+      list-style: none;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+      padding: 10px 0;
+      li {
+         color: $white;
+         :hover{
+          background-color: #38373c;
+         }
+      }
+   }
+}
+
+//Hero Section
+
+//Details Section
+
+//Footer

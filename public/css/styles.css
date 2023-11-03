@@ -1,6 +1,36 @@
-/******* Change Box Model ***************/
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@100;400&display=swap");
 *,
 *:before,
 *:after {
   box-sizing: border-box;
 }
+
+html {
+  background-image: url("../images/site/checkerboard.jpg");
+}
+
+body {
+  font-family: "Roboto", sans-serif;
+  background-color: #fff;
+  border: 5px solid #02b0d4;
+  border-radius: 10px;
+}
+
+nav {
+  background-color: #242332;
+}
+nav ul {
+  list-style: none;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  padding: 10px 0;
+}
+nav ul li {
+  color: #fff;
+}
+nav ul li :hover {
+  background-color: #38373c;
+}
+
+/*# sourceMappingURL=styles.css.map */
