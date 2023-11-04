@@ -3,9 +3,17 @@
 
 //Variables
 
+//color
 $blue: #02b0d4;
 $white: #fff;
+$white80: #ffffffCC;
 $black: #242332;
+$hover-black: #111;
+
+//breakpoints
+$sm: 480px;
+$md: 768px;
+$lg: 1200px;
 
 //Change Box Model
 *,
@@ -17,18 +25,36 @@ $black: #242332;
 //Background
 html {
    background-image: url('../images/site/checkerboard.jpg');
+   @media (min-width: $lg) {
+    background-image: url('../images/site/small_check.jpg');
+ }
 }
 
 //Page Body
 body {
    font-family: 'Roboto', sans-serif;
    background-color: $white;
-   border: 5px solid $blue;
    border-radius: 10px;
+   padding: 0;
+   margin: 0;
+   @media (min-width: $md) {
+    margin: 10px 10%;
+    padding: 10px;
+    border: 5px solid $blue;
+ }
 }
 
+//Header
+header {
+   display: flex;
+   flex-direction: row;
+   justify-content: space-between;
+   a {
+      text-decoration: none;
+      color: $black;
+   }
+}
 //Nav bar
-
 nav {
    background-color: $black;
    ul {
@@ -36,18 +62,87 @@ nav {
       display: flex;
       flex-direction: row;
       justify-content: space-around;
-      padding: 10px 0;
-      li {
+      padding: 0;
+      margin: 0;
+      li a {
+         display: block;
          color: $white;
-         :hover{
-          background-color: #38373c;
+         text-align: center;
+         padding: 14px 16px;
+         text-decoration: none;
+         &:hover {
+            background-color: $hover-black;
          }
       }
    }
 }
 
 //Hero Section
+.hero-section {
+   position: relative;
+   img {
+      width: 100%;
+   }
+   .hero-box {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      width: 30%;
+      height: 100%;
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      background-color: $white80;
+      color: $blue;
+      img {
+         width: 80%;
+      }
+      ul {
+         list-style: none;
+         padding: 0;
+      }
+      h4 {
+         margin: 0;
+      }
+   }
+}
 
 //Details Section
+.car-details {
+   display: flex;
+   flex-direction: column;
+   justify-content: space-evenly;
+   @media (min-width: $md) {
+      flex-direction: row;
+   }
+}
+//Car Upgrades
+.upgrades {
+   display: flex;
+   flex-direction: row;
+   flex-wrap: wrap;
+   div {
+      width: 38%;
+      margin: 20px;
+      background-color: $blue;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      img {
+         width: 33%;
+         padding: 5px;
+      }
+      a {
+        text-align: center;
+        width: 100%;
+         background-color: $white;
+      }
+   }
+}
 
+//Car Reviews
+.car-reviews{
+  li{padding: 10px 0;}
+}
 //Footer
