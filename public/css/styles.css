@@ -129,4 +129,38 @@ nav ul li a:hover {
   padding: 10px 0;
 }
 
+#inv-display {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  list-style: none;
+  justify-content: space-around;
+  align-items: center;
+}
+#inv-display li {
+  display: flex;
+  flex-direction: column;
+  background-color: #f2f2f2;
+  margin: 20px 0px;
+  padding: 10px;
+  width: 90%;
+}
+@media (min-width: 768px) {
+  #inv-display li {
+    width: 40%;
+  }
+}
+@media (min-width: 1200px) {
+  #inv-display li {
+    width: 30%;
+  }
+}
+#inv-display a {
+  color: #242332;
+  text-decoration: none;
+}
+#inv-display a img {
+  width: 100%;
+}
+
 /*# sourceMappingURL=styles.css.map */

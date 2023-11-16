@@ -5,7 +5,8 @@
 //color
 $blue: #02b0d4;
 $white: #fff;
-$white80: #ffffffCC;
+$white80: #ffffffcc;
+$grey: #f2f2f2;
 $black: #242332;
 $hover-black: #111;
 
@@ -25,8 +26,8 @@ $lg: 1200px;
 html {
    background-image: url('../images/site/checkerboard.jpg');
    @media (min-width: $lg) {
-    background-image: url('../images/site/small_check.jpg');
- }
+      background-image: url('../images/site/small_check.jpg');
+   }
 }
 
 //Page Body
@@ -37,10 +38,10 @@ body {
    padding: 0;
    margin: 0;
    @media (min-width: $md) {
-    margin: 10px 10%;
-    padding: 10px;
-    border: 5px solid $blue;
- }
+      margin: 10px 10%;
+      padding: 10px;
+      border: 5px solid $blue;
+   }
 }
 
 //Header
@@ -133,15 +134,52 @@ nav {
          padding: 5px;
       }
       a {
-        text-align: center;
-        width: 100%;
+         text-align: center;
+         width: 100%;
          background-color: $white;
       }
    }
 }
 
 //Car Reviews
-.car-reviews{
-  li{padding: 10px 0;}
+.car-reviews {
+   li {
+      padding: 10px 0;
+   }
 }
 //Footer
+
+//inventory
+
+//grid
+#inv-display {
+   display: flex;
+   flex-direction: row;
+   flex-wrap: wrap;
+   list-style: none;
+   justify-content: space-around;
+   align-items: center;
+   li {
+      display: flex;
+      flex-direction: column;
+      background-color: $grey;
+      margin: 20px 0px;
+      padding: 10px;
+      width: 90%;
+      @media (min-width: $md) {
+         width: 40%;
+      }
+      @media (min-width: $lg) {
+         width: 30%;
+      }
+   }
+   a {
+      color: $black;
+      text-decoration: none;
+      img {
+         width: 100%;
+      }
+   }
+}
+.namePrice {
+}
