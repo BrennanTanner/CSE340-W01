@@ -84,7 +84,7 @@ Util.buildClassificationGrid = async function (data) {
 Util.buildItemGrid = async function (data) {
   const vehicle = data[0];
    let grid;
-   if (data.length > 0) {
+   if (vehicle) {
       grid = '<div id="details-display">';
       grid +=
          '<img src="' +
@@ -93,10 +93,10 @@ Util.buildItemGrid = async function (data) {
          vehicle.inv_make +
          ' ' +
          vehicle.inv_model +
-         ' on CSE Motors" />';
+         ' on CSE Motors" >';
       grid += '<div class="details">';
       grid += '<div class="info">';
-      grid += '<hr />';
+      grid += '<hr>';
       grid += '<h2>';
       grid += '<span>$' +
       new Intl.NumberFormat('en-US').format(vehicle.inv_price) +
@@ -116,7 +116,7 @@ Util.buildItemGrid = async function (data) {
       grid += '</div>';
       grid += '</div>';
    } else {
-      grid +=
+      grid =
          '<p class="notice">Sorry, that car doesn\'t exsist. Try searching again.</p>';
    }
    return grid;
