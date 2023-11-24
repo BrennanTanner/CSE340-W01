@@ -82,7 +82,7 @@ Util.buildClassificationGrid = async function (data) {
  * Build the details view HTML
  * ************************************ */
 Util.buildItemGrid = async function (data) {
-  const vehicle = data[0];
+   const vehicle = data[0];
    let grid;
    if (vehicle) {
       grid = '<div id="details-display">';
@@ -98,9 +98,10 @@ Util.buildItemGrid = async function (data) {
       grid += '<div class="info">';
       grid += '<hr>';
       grid += '<h2>';
-      grid += '<span>$' +
-      new Intl.NumberFormat('en-US').format(vehicle.inv_price) +
-      '</span>';
+      grid +=
+         '<span>$' +
+         new Intl.NumberFormat('en-US').format(vehicle.inv_price) +
+         '</span>';
       grid += '</h2>';
 
       grid += '<p><strong>Mileage:</strong> ' + vehicle.inv_miles + '</p>';
@@ -120,6 +121,155 @@ Util.buildItemGrid = async function (data) {
          '<p class="notice">Sorry, that car doesn\'t exsist. Try searching again.</p>';
    }
    return grid;
+};
+
+/* **************************************
+ * Build the inv management view HTML
+ * ************************************ */
+Util.buildManagementMenu = async function (vehicle, success) {
+   let menu = '<div class="form">'
+   if(success){menu += `<form><h3 class="error">${vehicle} was successfully added.</h3></form>`;}
+   menu += '<ul><li><a href="/inv/add-class">Add New Classification</a></li>';
+   menu += '<li><a href="/inv/add-vehicle">Add New Vehicle</a></li></ul></div>';
+   return menu;
+};
+
+/* **************************************
+ * Build the new class view HTML
+ * ************************************ */
+Util.buildNewClassForm = async function (name, error) {
+   let form = '<div class="form">';
+   if (error) {
+      form += `<h4 class="error">${error}</h4>`;
+   }
+   form += '<form action="/inv/new-class">';
+   form += '<h3>* Field is required</h3>';
+   form += '<label for="class-name">Class Name</label>';
+   form += '<h3>Name must be alphebetic characters only.</h3>';
+   form += `<input type="text" id="class-name" name="classname" value="${
+      name || ''
+   }" required pattern="[a-zA-Z0-9]+" oninvalid="this.setCustomValidity(\'No special characters or spaces!\')">`;
+   form += '<input type="submit" class="btn-main" value="Submit">';
+   form += '</form></div>';
+   return form;
+};
+
+/* ****************************************
+ * Middleware for new class
+ **************************************** */
+Util.validateNewClass = function (data) {
+   if (data.classname) {
+      return true;
+   } else {
+      false;
+   }
+};
+
+/* **************************************
+ * Build the new vehicle view HTML
+ * ************************************ */
+Util.buildNewVehicleForm = async function (data, error) {
+   const {
+      inv_make,
+      inv_model,
+      inv_year,
+      inv_description,
+      inv_image,
+      inv_thumbnail,
+      inv_price,
+      inv_miles,
+      inv_color,
+      classification_id,
+   } = data;
+
+   console.log(inv_make);
+   let classes = await invModel.getClassifications();
+   let form = '<div class="form">';
+   if (error) {
+      form += `<h4 class="error"> Error: ${error}</h4>`;
+   }
+
+   form += '<form action="/inv/new-vehicle">';
+   form += '<h3>* All fields are required</h3>';
+   form += '<div><label for="make">Vehicle Make</label>';
+   form += `<input type="text" id="make" value="${
+      inv_make || ''
+   }" name="inv_make" required/></div>`;
+
+   form += '<div><label for="model">Vehicle Model</label>';
+   form += `<input type="text" id="model" value="${
+      inv_model || ''
+   }"  name="inv_model" required/></div>`;
+
+   form += '<div><label for="year">Vehicle Year</label>';
+   form += `<input type="number" id="year" min="1800" max="2023" step="1" 
+      value="${
+         inv_year || 2023
+      }" placeholder="2023" name="inv_year required"/></div>`;
+
+   form += '<div><label for="description">Vehicle Description</label>';
+   form += `<textarea id="description" value="${
+      inv_description || ''
+   }" name="inv_description" rows="4" cols="50" required></textarea></div>`;
+
+   form += '<div><label for="image">Vehicle Image</label>';
+   form += `<input type="text" id="image" value="${
+      inv_image || '/images/vehicles/no-image.png'
+   }"   name="inv_image" required/></div>`;
+
+   form += '<div><label for="thumbnail">Vehicle Thumbnail</label>';
+   form += `<input type="text" id="thumbnail" value="${
+      inv_thumbnail || '/images/vehicles/no-image-tn.png'
+   }"  name="inv_thumbnail" required/></div>`;
+
+   form +=
+      '<div class="flex-row"><div ><label for="price">Vehicle Price</label>';
+   form += `<input type="number" id="price" placeholder="20000" value="${
+      inv_price || 10000
+   }"  name="inv_price" required/></div>`;
+
+   form += '<div><label for="miles">Vehicle Miles</label>';
+   form += `<input type="number" id="miles" placeholder="50000" value="${
+      inv_miles || 10000
+   }"  name="inv_miles" required/></div></div>`;
+
+   form += '<div><label for="color">Vehicle Color</label>';
+   form += `<input type="text" id="color" value="${
+      inv_color || ''
+   }"  name="inv_color" required/></div>`;
+
+   form += '<div><label for="classification">Classification</label>';
+   form += `<select id="classification" value="${
+      classification_id || 'custom'
+   }"  name="classification_id" required>`;
+   classes.rows.forEach((row) => {
+      form +=
+         '<option value="' +
+         row.classification_id +
+         '">' +
+         row.classification_name +
+         '</option>';
+   });
+   form += '</select></div>';
+
+   form += '<input type="submit" class="btn-main" value="Submit">';
+   form += '</form></div>';
+   return form;
+};
+
+/* ****************************************
+ * Middleware for new vehicle
+ **************************************** */
+Util.validateNewVehicle = function (data) {
+   if (Object.values(data).includes('')) {
+      let arr = [];
+      Object.entries(data).map(([key, value], i) => {
+         if (!value) arr.push(key);
+      });
+      return arr;
+   } else {
+      return null;
+   }
 };
 
 /* ****************************************

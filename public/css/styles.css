@@ -209,7 +209,9 @@ nav ul li a:hover {
   align-items: center;
 }
 
-button, .btn {
+button,
+.btn,
+input[type=submit] {
   border-radius: 4px;
   border-style: none;
   box-sizing: border-box;
@@ -240,8 +242,74 @@ button, .btn {
 }
 
 button:hover,
-button:focus {
+button:focus,
+input[type=submit] {
   opacity: 0.75;
+}
+
+input[type=text],
+select {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+input[type=text]:required:invalid,
+textarea:required:invalid,
+select:required:invalid,
+input[type=number]:required:invalid {
+  border: 2px solid #fa3f3f;
+}
+
+input[type=text]:focus:required:invalid,
+textarea:focus:required:invalid,
+select:focus:required:invalid,
+input[type=number]:required:invalid {
+  background-color: #ffc8c8;
+}
+
+input[type=text]:focus:required:valid,
+textarea:focus:required:valid,
+select:focus:required:valid,
+input[type=number]:focus:required:valid {
+  background-color: #c8ffd1;
+}
+
+.form {
+  border-radius: 5px;
+  background-color: #f2f2f2;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+.form li {
+  padding-top: 10px;
+  list-style: none;
+  font-size: larger;
+}
+.form div {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+}
+.form label {
+  font-size: larger;
+  font-weight: bold;
+}
+.form h3 {
+  font-style: italic;
+  font-size: large;
+}
+.form .flex-row {
+  flex-direction: row;
+}
+
+.error {
+  color: #fa3f3f;
 }
 
 footer {
