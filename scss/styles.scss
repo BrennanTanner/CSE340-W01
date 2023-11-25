@@ -262,6 +262,8 @@ input[type='submit'] {
 }
 
 input[type='text'],
+input[type='email'],
+input[type='password'],
 select {
    width: 100%;
    padding: 12px 20px;
@@ -273,23 +275,30 @@ select {
 }
 
 input[type='text']:required:invalid,
+input[type='number']:required:invalid,
+input[type='email']:required:invalid,
+input[type='password']:required:invalid,
 textarea:required:invalid,
-select:required:invalid,
-input[type='number']:required:invalid {
+select:required:invalid
+ {
    border: 2px solid #fa3f3f;
 }
 
 input[type='text']:focus:required:invalid,
+input[type='number']:focus:required:invalid,
+input[type='email']:focus:required:invalid,
+input[type='password']:focus:required:invalid,
 textarea:focus:required:invalid,
-select:focus:required:invalid,
-input[type='number']:required:invalid {
+select:focus:required:invalid {
    background-color: #ffc8c8;
 }
 
 input[type='text']:focus:required:valid,
+input[type='number']:focus:required:valid,
+input[type='email']:focus:required:valid,
+input[type='password']:focus:required:valid,
 textarea:focus:required:valid,
-select:focus:required:valid,
-input[type='number']:focus:required:valid {
+select:focus:required:valid{
    background-color: #c8ffd1;
 }
 
@@ -325,6 +334,20 @@ input[type='number']:focus:required:valid {
 .error {
    color: #fa3f3f;
 }
+
+form * {
+   display: block;
+ }
+ 
+ #pswdBtn {
+   border: 2px solid #000;
+   border-radius: 5px;
+   padding: 2px;
+   margin-top: 1em;
+   font-size: small;
+   width: 7em;
+   text-align: center;
+ }
 
 footer {
    color: $grey;
