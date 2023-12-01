@@ -17,11 +17,9 @@ async function registerAccount(account_firstname, account_lastname, account_emai
 * ***************************** */
 async function getAccountByEmail (account_email) {
   try {
-    console.log('account model ln 20')
     const result = await pool.query(
       'SELECT account_id, account_firstname, account_lastname, account_email, account_type, account_password FROM account WHERE account_email = $1',
       [account_email])
-      console.log(result)
     return result.rows[0]
   } catch (error) {
     return new Error("No matching email found")
