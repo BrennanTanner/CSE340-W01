@@ -1,0 +1,32 @@
+<!-- heading -->
+<% if (title) { %>
+  <h1><%= title %></h1>
+  <% } else { res.redirect('/') } %>
+  
+  <!-- Message Block -->
+  <%# messages() %>
+  
+  <div class="form">
+    <%- messages() %>
+    
+     <form  action="/inv/new-class" method="post">
+      <% if (errors) { %>
+        <ul class="notice">
+       <% errors.array().forEach(error => { %>
+         <li><%= error.msg %></li>
+      <%  }) %>
+       </ul>
+      <% } %>
+        <label for="classification_name">Class Name</label>
+        <i>Name must be alphebetic characters only.</i>
+        <% if (name) { %>
+          <input type="text" id="classification_name" name="classification_name" value="<%= name %>" required pattern="[a-zA-Z0-9]+" oninvalid="this.setCustomValidity('No special characters or spaces!')">
+         
+        <% }else{ %>
+          <input type="text" id="classification_name" name="classification_name" required pattern="[a-zA-Z0-9]+" oninvalid="this.setCustomValidity('No special characters or spaces!')">
+          <% } %>
+        <input type="submit" class="btn-main" value="Submit">
+        </form></div>
+        
+  </div>
+  

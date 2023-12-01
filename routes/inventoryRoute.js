@@ -1,25 +1,50 @@
-// Needed Resources 
-const express = require("express")
-const router = new express.Router() 
-const invController = require("../controllers/invController")
+// Needed Resources
+const express = require('express');
+const router = new express.Router();
+const invController = require('../controllers/invController');
+const managementController = require('../controllers/managmentController');
+const utilities = require('../utilities/index');
+const managementValidate = require('../utilities/management-validation');
 
 // Route to build inventory management view
-router.get("/", invController.buildInventoryManagement);
+router.get('/', utilities.handleErrors(managementController.buildInventoryManagement));
 
-// Route to build add classification view
-router.get("/add-class", invController.buildAddClass);
+// Route to build new class view
+router.get(
+   '/new-class',
+   utilities.handleErrors(managementController.buildNewClass)
+);
+// Process the new class data
+router.post(
+   '/new-class',
+   managementValidate.classRules(),
+   managementValidate.checkClassData,
+   utilities.handleErrors(managementController.addClass)
+);
 
-router.get("/new-class", invController.postNewClass);
-
-// Route to build add vehicle view
-router.get("/add-vehicle", invController.buildAddVehicle);
-
-router.get("/new-vehicle", invController.postNewVehicle);
+// Route to build new vehicle view
+router.get(
+   '/new-vehicle',
+   utilities.handleErrors(managementController.buildNewVehicle)
+);
+// Process the new class data
+router.post(
+   '/new-vehicle',
+   managementValidate.vehicleRules(),
+   managementValidate.checkVehicleData,
+   utilities.handleErrors(managementController.addVehicle)
+);
 
 // Route to build inventory by classification view
-router.get("/type/:classificationId", invController.buildByClassificationId);
+router.get(
+   '/type/:classificationId',
+   utilities.handleErrors(invController.buildByClassificationId)
+);
 
 // Route to build details page
-router.get("/detail/:invId", invController.buildByInventoryId);
+router.get(
+   '/detail/:invId',
+   utilities.handleErrors(invController.buildByInventoryId)
+);
 
 module.exports = router;

@@ -123,37 +123,6 @@ Util.buildItemGrid = async function (data) {
    return grid;
 };
 
-/* **************************************
- * Build the inv management view HTML
- * ************************************ */
-Util.buildManagementMenu = async function (vehicle, success) {
-   let menu = '<div class="form">'
-   if(success){menu += `<form><h3 class="error">${vehicle} was successfully added.</h3></form>`;}
-   menu += '<ul><li><a href="/inv/add-class">Add New Classification</a></li>';
-   menu += '<li><a href="/inv/add-vehicle">Add New Vehicle</a></li></ul></div>';
-   return menu;
-};
-
-/* **************************************
- * Build the new class view HTML
- * ************************************ */
-Util.buildNewClassForm = async function (name, error) {
-   let form = '<div class="form">';
-   if (error) {
-      form += `<h4 class="error">${error}</h4>`;
-   }
-   form += '<form action="/inv/new-class">';
-   form += '<h3>* Field is required</h3>';
-   form += '<label for="class-name">Class Name</label>';
-   form += '<h3>Name must be alphebetic characters only.</h3>';
-   form += `<input type="text" id="class-name" name="classname" value="${
-      name || ''
-   }" required pattern="[a-zA-Z0-9]+" oninvalid="this.setCustomValidity(\'No special characters or spaces!\')">`;
-   form += '<input type="submit" class="btn-main" value="Submit">';
-   form += '</form></div>';
-   return form;
-};
-
 /* ****************************************
  * Middleware for new class
  **************************************** */
@@ -168,7 +137,7 @@ Util.validateNewClass = function (data) {
 /* **************************************
  * Build the new vehicle view HTML
  * ************************************ */
-Util.buildNewVehicleForm = async function (data, error) {
+Util.buildNewVehicleForm = async function (data) {
    const {
       inv_make,
       inv_model,
@@ -182,14 +151,10 @@ Util.buildNewVehicleForm = async function (data, error) {
       classification_id,
    } = data;
 
-   console.log(inv_make);
    let classes = await invModel.getClassifications();
    let form = '<div class="form">';
-   if (error) {
-      form += `<h4 class="error"> Error: ${error}</h4>`;
-   }
 
-   form += '<form action="/inv/new-vehicle">';
+   form += '<form action="/inv/add-vehicle" method="POST">';
    form += '<h3>* All fields are required</h3>';
    form += '<div><label for="make">Vehicle Make</label>';
    form += `<input type="text" id="make" value="${
