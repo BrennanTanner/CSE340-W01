@@ -1,0 +1,150 @@
+<!-- The content Heading -->
+
+<% if (title) {%>
+<h1><%= title %></h1>
+<% } else { res.redirect('/') } %>
+
+<!-- A Message Block to display potential error messages -->
+<%- messages() %> <% if (errors) { %>
+<ul class="notice">
+   <% errors.array().forEach(error => { %>
+   <li><%= error.msg %></li>
+   <% }) %>
+</ul>
+<% } %>
+
+<div id="updateForm" class="form">
+   <form id="inv-edit" action="/inv/update" method="POST">
+      <h3>* All fields are required</h3>
+      <div>
+         <label for="inv_make">Vehicle Make</label>
+         <input
+            type="text"
+            id="inv_make"
+            value="<%=inv_make%>"
+            name="inv_make"
+            required
+         />
+      </div>
+
+      <div>
+         <label for="inv_model">Vehicle Model</label>
+         <input
+            type="text"
+            id="inv_model"
+            value="<%= inv_model%>"
+            name="inv_model"
+            required
+         />
+      </div>
+
+      <div>
+         <label for="inv_year">Vehicle Year</label>
+         <input
+            type="number"
+            id="inv_year"
+            min="1800"
+            max="2023"
+            step="1"
+            value="<%=inv_year%>"
+            placeholder="2023"
+            name="inv_year"
+            required
+         />
+      </div>
+
+      <div>
+         <label for="inv_description">Vehicle Description</label>
+         <textarea
+            id="inv_description"
+            name="inv_description"
+            rows="4"
+            cols="50"
+            required
+         ><%=inv_description %></textarea>
+      </div>
+
+      <div>
+         <label for="inv_image">Vehicle Image</label>
+         <input
+            type="text"
+            id="inv_image"
+            value="<%=inv_image %>"
+            name="inv_image"
+            required
+         />
+      </div>
+
+      <div>
+         <label for="inv_thumbnail">Vehicle Thumbnail</label>
+         <input
+            type="text"
+            id="inv_thumbnail"
+            value="<%=inv_thumbnail %>"
+            name="inv_thumbnail"
+            required
+         />
+      </div>
+
+      <div class="flex-row">
+         <div>
+            <label for="inv_price">Vehicle Price</label>
+            <input
+               type="number"
+               id="inv_price"
+               placeholder="20000"
+               value="<%= inv_price %>"
+               name="inv_price"
+               required
+            />
+         </div>
+         <div>
+            <label for="inv_miles">Vehicle Miles</label><input
+               type="number"
+               id="inv_miles"
+               placeholder="50000"
+               value="<%=inv_miles%>"
+               name="inv_miles"
+               required
+            />
+         </div>
+      </div>
+      <div>
+         <label for="inv_color">Vehicle Color</label><input
+            type="text"
+            id="inv_color"
+            value="<%=inv_color %>"
+            name="inv_color"
+            required
+         />
+      </div>
+      <div>
+         <label for="classification_id">Classification</label><select
+            id="classification_id"
+            value="<%=classification_id %>"
+            name="classification_id"
+            required
+
+         >
+            <%classes.rows.forEach((row) => {%> 
+            <option
+               value="<%= row.classification_id  %>"
+               <% if(classification_id == row.classification_id) { %>
+                  selected
+               <%=row.classification_name %>
+               <% } %>
+            >
+            <%=row.classification_name %>
+            </option>
+            <%});%> 
+         </select>
+      </div>
+
+      <input type="submit" disabled class="btn-main" value="Submit" /> 
+      <input type="hidden" name="inv_id"
+<% if(locals.inv_id) { %> value="<%= locals.inv_id %>"
+<% } %>>
+   </form>
+   <noscript>JavaScript must be enabled to use this page.</noscript>
+</div>
+<script src="/js/inv-update.js"></script>

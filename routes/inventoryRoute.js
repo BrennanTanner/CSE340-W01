@@ -50,6 +50,19 @@ router.get(
    utilities.handleErrors(invController.buildByInventoryId)
 );
 
+//get Inventory
 router.get("/getInventory/:classification_id", utilities.handleErrors(invController.getInventoryJSON))
+
+//get view for editing inventory
+router.get("/edit/:inv_id", utilities.handleErrors(invController.buildEditVehicle))
+
+//post updated inventory
+router.post("/update/", utilities.handleErrors(invController.updateInventory))
+
+//get view for deleting inventory
+router.get("/delete/:inv_id", utilities.handleErrors(invController.buildDeleteInventory))
+
+//delete inventory
+router.post("/delete/", utilities.handleErrors(invController.deleteInventory))
 
 module.exports = router;

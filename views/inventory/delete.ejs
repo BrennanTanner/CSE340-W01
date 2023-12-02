@@ -1,0 +1,38 @@
+<!-- The content Heading -->
+<% if (title) { %>
+   <h1><%= title %></h1>
+   <% } else {
+     res.redirect('/')
+   } %>
+
+
+<!-- A Message Block to display potential error messages -->
+<%- messages() %>
+<% if (errors) { %>
+ <ul class="notice">
+<% errors.array().forEach(error => { %>
+  <li><%= error.msg %></li>
+<%  }) %>
+</ul>
+<% } %>
+
+<!-- The delete inventory Display -->
+<div id="deleteInventory-block1" class="outerbox">
+ <div class="italics">Confirm Deletion - The delete is permanent.</div>
+ <div id="deleteInventory-block2" class="innerbox">
+   <form id="deleteInventoryForm" action="/inv/delete/" method="post">
+       <label for="invMake">Make</label>
+       <input type="text" id="invMake" name="inv_make" disabled value="<%= locals.inv_make %>">
+       <label for="invModel">Model</label>
+       <input type="text" id="invModel" name="inv_model" disabled value="<%= locals.inv_model %>">
+       <label for="invPrice">Price</label>
+       <input type="number" id="invPrice" name="inv_price" disabled value="<%= locals.inv_price %>">
+       <label for="inv_year">Year</label>
+       <input type="text" id="inv_year" name="inv_year" disabled value="<%= locals.inv_year %>">
+       <input type="submit" class="btn-main" value="Submit" /> 
+       <input type="hidden" name="inv_id"
+       <% if(locals.inv_id) { %> value="<%= locals.inv_id %>"
+       <% } %>>
+   </form>
+ </div>
+</div>

@@ -18,6 +18,7 @@
       name="classification_id"
       required
    >
+   <option selected hidden disabled> Select a class</option>
       <%classes.rows.forEach((row) => {%>
       <option value="<%= row.classification_id  %>">
          <%=row.classification_name %>

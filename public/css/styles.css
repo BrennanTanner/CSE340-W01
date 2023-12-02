@@ -287,6 +287,11 @@ select:focus:required:valid {
   background-color: #c8ffd1;
 }
 
+input[type=submit]:disabled {
+  background-color: grey;
+  cursor: default;
+}
+
 .form {
   border-radius: 5px;
   background-color: #f2f2f2;
