@@ -4,10 +4,13 @@ const router = new express.Router();
 const invController = require('../controllers/invController');
 const managementController = require('../controllers/managmentController');
 const utilities = require('../utilities/index');
-const managementValidate = require('../utilities/management-validation');
+const inventoryValidate = require('../utilities/inventory-validate');
 
 // Route to build inventory management view
-router.get('/', utilities.handleErrors(managementController.buildInventoryManagement));
+router.get(
+   '/',
+   utilities.handleErrors(managementController.buildInventoryManagement)
+);
 
 // Route to build new class view
 router.get(
@@ -17,8 +20,8 @@ router.get(
 // Process the new class data
 router.post(
    '/new-class',
-   managementValidate.classRules(),
-   managementValidate.checkClassData,
+   inventoryValidate.classificationRules(),
+   inventoryValidate.checkClassificationData,
    utilities.handleErrors(managementController.addClass)
 );
 
@@ -30,8 +33,8 @@ router.get(
 // Process the new class data
 router.post(
    '/new-vehicle',
-   managementValidate.vehicleRules(),
-   managementValidate.checkVehicleData,
+   inventoryValidate.vehicleRules(),
+   inventoryValidate.checkVehicleData,
    utilities.handleErrors(managementController.addVehicle)
 );
 

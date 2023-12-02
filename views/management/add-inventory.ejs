@@ -1,42 +1,143 @@
+<!-- The content Heading -->
+
+<% if (title) { %>
+<h1><%= title %></h1>
+<% } else { res.redirect('/') } %>
+
+<!-- A Message Block to display potential error messages -->
+<%- messages() %> <% if (errors) { %>
+<ul class="notice">
+   <% errors.array().forEach(error => { %>
+   <li><%= error.msg %></li>
+   <% }) %>
+</ul>
+<% } %>
+
 <div class="form">
-  <%- messages() %>
-  <% if (errors) { %>
-     <ul class="notice">
-    <% errors.array().forEach(error => { %>
-      <li><%= error.msg %></li>
-   <%  }) %>
-    </ul>
-   <% } %>
-  <form action="/account/register" method="post">
-     <label for="account_firstname">First Name:</label>
-     <input
-        type="text"
-        id="account_firstname"
-        name="account_firstname"
-        required
-     />
-     <label for="account_lastname">Last Name:</label>
-     <input
-        type="text"
-        id="account_lastname"
-        name="account_lastname"
-        required
-     />
-     <label for="account_email">Email:</label>
-     <input type="email" id="account_email" name="account_email" required />
+   <form action="/inv/new-vehicle" method="POST">
+      <h3>* All fields are required</h3>
+      <div>
+         <label for="inv_make">Vehicle Make</label>
+         <input
+            type="text"
+            id="inv_make"
+            value="<%= inv_make || " " %>"
+            name="inv_make"
+            required
+         />
+      </div>
 
-     <label for="account_password">Password:</label>
-     <span>Passwords must be at least 12 characters and contain at least 1 number, 1 capital letter and 1 special character</span> 
-     <input
-        type="password"
-        id="account_password"
-        name="account_password"
-        minlength="12"
-        pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,}$"
-        required
-     />
-     <input type="submit" class="btn-main" value="Register" />
-  </form>
+      <div>
+         <label for="inv_model">Vehicle Model</label>
+         <input
+            type="text"
+            id="inv_model"
+            value="<%= inv_model || ""%>"
+            name="inv_model"
+            required
+         />
+      </div>
 
-  <p>Already have an account? <a href="/account/login">Login</a></p>
+      <div>
+         <label for="inv_year">Vehicle Year</label>
+         <input
+            type="number"
+            id="inv_year"
+            min="1800"
+            max="2023"
+            step="1"
+            value="<%=inv_year || 2023 %>"
+            placeholder="2023"
+            name="inv_year"
+            required
+         />
+      </div>
+
+      <div>
+         <label for="inv_description">Vehicle Description</label>
+         <textarea
+            id="inv_description"
+            value="<%=inv_description || "" %>"
+            name="inv_description"
+            rows="4"
+            cols="50"
+            required
+         ></textarea>
+      </div>
+
+      <div>
+         <label for="inv_image">Vehicle Image</label>
+         <input
+            type="text"
+            id="inv_image"
+            value="<%=inv_image || '/images/vehicles/no-image.png' %>"
+            name="inv_image"
+            required
+         />
+      </div>
+
+      <div>
+         <label for="inv_thumbnail">Vehicle Thumbnail</label>
+         <input
+            type="text"
+            id="inv_thumbnail"
+            value="<%=inv_thumbnail || '/images/vehicles/no-image-tn.png' %>"
+            name="inv_thumbnail"
+            required
+         />
+      </div>
+
+      <div class="flex-row">
+         <div>
+            <label for="inv_price">Vehicle Price</label>
+            <input
+               type="number"
+               id="inv_price"
+               placeholder="20000"
+               value="<%= inv_price || 10000 %>"
+               name="inv_price"
+               required
+            />
+         </div>
+
+         '
+         <div>
+            <label for="inv_miles">Vehicle Miles</label> `<input
+               type="number"
+               id="inv_miles"
+               placeholder="50000"
+               value="<%=inv_miles || 10000 %>"
+               name="inv_miles"
+               required
+            />
+         </div>
+      </div>
+      <div>
+         <label for="inv_color">Vehicle Color</label> `<input
+            type="text"
+            id="inv_color"
+            value="<%=inv_color || "" %>"
+            name="inv_color"
+            required
+         />
+      </div>
+      <div>
+         <label for="classification_id">Classification</label> `<select
+            id="classification_id"
+            value="<%=classification_id || 'custom' %>"
+            name="classification_id"
+            required
+         >
+            <%classes.rows.forEach((row) => {%> 
+            <option
+               value="<%= row.classification_id  %>"
+            >
+            <%=row.classification_name %>
+            </option>
+            <%});%> 
+         </select>
+      </div>
+
+      <input type="submit" class="btn-main" value="Submit" /> 
+   </form>
 </div>
