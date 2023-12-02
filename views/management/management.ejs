@@ -4,10 +4,28 @@
 <% } else { res.redirect('/') } %>
 
 <div class="form">
-  <!-- Message Block -->
+   <!-- Message Block -->
    <%- messages() %>
    <ul>
       <li><a href="/inv/new-class">Add New Classification</a></li>
       <li><a href="/inv/new-vehicle">Add New Vehicle</a></li>
    </ul>
+   <h2>Manage Inventory</h2>
+   <p>Select class from the list</p>
+
+   <label for="classification_id">Classification</label> `<select
+      id="classificationList"
+      name="classification_id"
+      required
+   >
+      <%classes.rows.forEach((row) => {%>
+      <option value="<%= row.classification_id  %>">
+         <%=row.classification_name %>
+      </option>
+      <%});%>
+   </select>
+
+   <table id="inventoryDisplay"></table>
+   <noscript>JavaScript must be enabled to use this page.</noscript>
 </div>
+<script src="/js/inventory.js"></script>

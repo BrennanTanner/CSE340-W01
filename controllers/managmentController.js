@@ -10,10 +10,12 @@ const manController = {};
  * *************************************** */
 manController.buildInventoryManagement = async function (req, res, next) {
    const nav = await utilities.getNav();
+   let classes = await inventoryModel.getClassifications();
    const title = 'Vehicle Management';
    res.render('management/management', {
       title,
       nav,
+      classes,
       errors: null,
    });
 };

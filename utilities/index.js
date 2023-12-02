@@ -126,32 +126,6 @@ Util.buildItemGrid = async function (data) {
 };
 
 /* ****************************************
- * Middleware for new class
- **************************************** */
-Util.validateNewClass = function (data) {
-   if (data.classname) {
-      return true;
-   } else {
-      false;
-   }
-};
-
-/* ****************************************
- * Middleware for new vehicle
- **************************************** */
-Util.validateNewVehicle = function (data) {
-   if (Object.values(data).includes('')) {
-      let arr = [];
-      Object.entries(data).map(([key, value], i) => {
-         if (!value) arr.push(key);
-      });
-      return arr;
-   } else {
-      return null;
-   }
-};
-
-/* ****************************************
  * Middleware For Handling Errors
  * Wrap other function in this for
  * General Error Handling
