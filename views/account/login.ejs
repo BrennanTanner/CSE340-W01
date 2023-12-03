@@ -6,14 +6,13 @@
 <!-- Message Block -->` <%# messages() %>
 
 <div class="form">
-   <%- messages() %>
-   <% if (errors) { %>
-      <ul class="notice">
-     <% errors.array().forEach(error => { %>
-       <li><%= error.msg %></li>
-    <%  }) %>
-     </ul>
-    <% } %>
+   <%- messages() %> <% if (errors) { %>
+   <ul class="notice">
+      <% errors.array().forEach(error => { %>
+      <li><%= error.msg %></li>
+      <% }) %>
+   </ul>
+   <% } %>
    <form action="/account/login" method="post">
       <label for="account_email">Email:</label>
       <input type="email" id="account_email" name="account_email" required />

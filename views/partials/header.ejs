@@ -3,7 +3,12 @@
      <h1><a href="/" title="Return to home page">CSE Motors</a></h1>
    </div>
    <div id="tools">
-    
-     <h4><a title="Click to log in" href="/account/login">My Account</a></h4>
+    <%if(loggedin){ %>
+
+      <h4><a title="Click to log out" href="/account/">Welcome, <%=account.account_firstname%></a></h4>
+     <h4><a title="Click to log out" href="/account/logout">Logout</a></h4>
+     <%}else{%>
+      <h4><a title="Click to log in" href="/account/login">My Account</a></h4>
+      <%}%>
    </div>
  </header>

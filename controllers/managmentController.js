@@ -11,12 +11,20 @@ const manController = {};
 manController.buildInventoryManagement = async function (req, res, next) {
    const nav = await utilities.getNav();
    let classes = await inventoryModel.getClassifications();
+
+   let loggedin = false;
+   if(res.locals.loggedin){
+     loggedin = true;
+   }
+
    const title = 'Vehicle Management';
    res.render('management/management', {
       title,
       nav,
       classes,
       errors: null,
+      loggedin,
+      account: res.locals.accountData
    });
 };
 
@@ -25,9 +33,15 @@ manController.buildInventoryManagement = async function (req, res, next) {
  * *************************************** */
 manController.buildNewClass = async function (req, res, next) {
    let nav = await utilities.getNav();
+   let loggedin = false;
+   if (res.locals.loggedin) {
+      loggedin = true;
+   }
    res.render('management/add-classification', {
       title: 'Create a new Class',
       nav,
+      loggedin,
+      account: res.locals.accountData,
       errors: null,
       name: null,
    });
@@ -38,9 +52,15 @@ manController.buildNewClass = async function (req, res, next) {
  * *************************************** */
 manController.buildRegister = async function (req, res, next) {
    let nav = await utilities.getNav();
+   let loggedin = false;
+   if (res.locals.loggedin) {
+      loggedin = true;
+   }
    res.render('management/add-inventory', {
       title: 'Create a new vehicle',
       nav,
+      loggedin,
+      account: res.locals.accountData,
       errors: null,
    });
 };
@@ -51,10 +71,16 @@ manController.buildRegister = async function (req, res, next) {
 manController.buildNewVehicle = async function (req, res, next) {
    let classes = await inventoryModel.getClassifications();
    let nav = await utilities.getNav();
+   let loggedin = false;
+      if (res.locals.loggedin) {
+         loggedin = true;
+      }
    res.render('./management/add-inventory', {
       title: 'Create a new vehicle',
       classes,
       nav,
+      loggedin,
+      account: res.locals.accountData,
       classification_id: null,
       inv_make: null,
       inv_model: null,
@@ -80,15 +106,27 @@ manController.addClass = async function (req, res) {
 
    if (Result) {
       req.flash('notice', `The ${classification_name} class was created`);
+      let loggedin = false;
+      if (res.locals.loggedin) {
+         loggedin = true;
+      }
       res.status(201).render('management/management', {
          title: 'Vehicle Management',
          nav,
+         loggedin,
+         account: res.locals.accountData,
       });
    } else {
       req.flash('notice', 'Sorry, failed to create class.');
+      let loggedin = false;
+      if (res.locals.loggedin) {
+         loggedin = true;
+      }
       res.status(501).render('management/add-classification', {
          title: 'Create a new Class',
          nav,
+         loggedin,
+         account: res.locals.accountData,
          name: classification_name,
       });
    }
@@ -124,10 +162,16 @@ manController.addVehicle = async function (req, res) {
       );
       res.redirect('/inv/');
    } else {
+      let loggedin = false;
+      if (res.locals.loggedin) {
+         loggedin = true;
+      }
       req.flash('notice', 'Sorry, there was an error adding that vehicle.');
       res.render('./inventory/add-inventory', {
          title: 'Add New Vehicle',
          nav,
+         loggedin,
+         account: res.locals.accountData,
          classes,
          classification_id,
          inv_make,

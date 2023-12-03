@@ -26,7 +26,6 @@ validate.registationRules = () => {
          .isEmail()
          .normalizeEmail() // refer to validator.js docs
          .custom(async (value) => {
-
             return await emailNotInUse(value);
          })
          .withMessage('A valid email is required.'),
@@ -100,7 +99,7 @@ validate.checkLoginData = async (req, res, next) => {
    const { account_email, account_password } = req.body;
    let errors = [];
    errors = validationResult(req);
-   
+
    if (!errors.isEmpty()) {
       let nav = await utilities.getNav();
       res.render('account/login', {

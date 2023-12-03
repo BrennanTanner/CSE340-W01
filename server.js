@@ -61,7 +61,7 @@ app.set('layout', './layouts/layout');
 app.use(static);
 
 //index route
-app.get('/', utilities.handleErrors(baseController.buildHome));
+app.get('/', utilities.checkJWTToken, utilities.handleErrors(baseController.buildHome));
 // Inventory routes
 app.use('/inv', inventoryRoute);
 // Inventory routes

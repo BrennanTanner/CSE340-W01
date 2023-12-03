@@ -15,6 +15,8 @@ router.get(
 // Route to build new class view
 router.get(
    '/new-class',
+   utilities.checkLogin,
+   utilities.checkAdmin,
    utilities.handleErrors(managementController.buildNewClass)
 );
 // Process the new class data
@@ -28,6 +30,8 @@ router.post(
 // Route to build new vehicle view
 router.get(
    '/new-vehicle',
+   utilities.checkLogin,
+   utilities.checkAdmin,
    utilities.handleErrors(managementController.buildNewVehicle)
 );
 // Process the new class data
@@ -41,28 +45,43 @@ router.post(
 // Route to build inventory by classification view
 router.get(
    '/type/:classificationId',
+   utilities.checkLogin,
    utilities.handleErrors(invController.buildByClassificationId)
 );
 
 // Route to build details page
 router.get(
    '/detail/:invId',
+   utilities.checkLogin,
    utilities.handleErrors(invController.buildByInventoryId)
 );
 
 //get Inventory
-router.get("/getInventory/:classification_id", utilities.handleErrors(invController.getInventoryJSON))
+router.get(
+   '/getInventory/:classification_id',
+   utilities.handleErrors(invController.getInventoryJSON)
+);
 
 //get view for editing inventory
-router.get("/edit/:inv_id", utilities.handleErrors(invController.buildEditVehicle))
+router.get(
+   '/edit/:inv_id',
+   utilities.checkLogin,
+   utilities.checkAdmin,
+   utilities.handleErrors(invController.buildEditVehicle)
+);
 
 //post updated inventory
-router.post("/update/", utilities.handleErrors(invController.updateInventory))
+router.post('/update/', utilities.handleErrors(invController.updateInventory));
 
 //get view for deleting inventory
-router.get("/delete/:inv_id", utilities.handleErrors(invController.buildDeleteInventory))
+router.get(
+   '/delete/:inv_id',
+   utilities.checkLogin,
+   utilities.checkAdmin,
+   utilities.handleErrors(invController.buildDeleteInventory)
+);
 
 //delete inventory
-router.post("/delete/", utilities.handleErrors(invController.deleteInventory))
+router.post('/delete/', utilities.handleErrors(invController.deleteInventory));
 
 module.exports = router;

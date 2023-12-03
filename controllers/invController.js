@@ -27,10 +27,16 @@ invCont.buildByClassificationId = utilities.handleErrors(async function (
    const grid = await utilities.buildClassificationGrid(data);
    let nav = await utilities.getNav();
    const className = data[0].classification_name;
+   let loggedin = false;
+   if (res.locals.loggedin) {
+      loggedin = true;
+   }
    res.render('./inventory/classification', {
       title: className + ' vehicles',
       nav,
       grid,
+      loggedin,
+      account: res.locals.accountData,
    });
 });
 
@@ -50,10 +56,16 @@ invCont.buildByInventoryId = utilities.handleErrors(async function (
    if (data.length) {
       title = data[0].inv_make + ' ' + data[0].inv_model;
    }
+   let loggedin = false;
+   if (res.locals.loggedin) {
+      loggedin = true;
+   }
    res.render('./inventory/details', {
       title,
       nav,
       grid,
+      loggedin,
+      account: res.locals.accountData,
    });
 });
 
@@ -81,10 +93,16 @@ invCont.buildEditVehicle = async function (req, res, next) {
    let nav = await utilities.getNav();
    const itemData = await invModel.getItemByInventoryId(inv_id);
    const itemName = `${itemData[0].inv_make} ${itemData[0].inv_model}`;
+   let loggedin = false;
+   if (res.locals.loggedin) {
+      loggedin = true;
+   }
    res.render('./inventory/edit-inventory', {
       title: 'Edit ' + itemName,
       nav,
       classes,
+      loggedin,
+      account: res.locals.accountData,
       errors: null,
       inv_id: itemData[0].inv_id,
       inv_make: itemData[0].inv_make,
@@ -141,10 +159,16 @@ invCont.updateInventory = async function (req, res, next) {
          classification_id
       );
       const itemName = `${inv_make} ${inv_model}`;
+      let loggedin = false;
+      if (res.locals.loggedin) {
+         loggedin = true;
+      }
       req.flash('notice', 'Sorry, the insert failed.');
       res.status(501).render('inventory/edit-inventory', {
          title: 'Edit ' + itemName,
          nav,
+         loggedin,
+         account: res.locals.accountData,
          classificationSelect: classificationSelect,
          errors: null,
          inv_id,
@@ -170,9 +194,15 @@ invCont.buildDeleteInventory = async function (req, res, next) {
    let nav = await utilities.getNav();
    const itemData = await invModel.getItemByInventoryId(inv_id);
    const itemName = `${itemData[0].inv_make} ${itemData[0].inv_model}`;
+   let loggedin = false;
+      if (res.locals.loggedin) {
+         loggedin = true;
+      }
    res.render('./inventory/delete', {
       title: 'Delete ' + itemName,
       nav,
+      loggedin,
+      account: res.locals.accountData,
       errors: null,
       inv_id: itemData[0].inv_id,
       inv_make: itemData[0].inv_make,

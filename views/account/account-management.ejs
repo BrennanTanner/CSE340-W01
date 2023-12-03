@@ -4,9 +4,13 @@
 <% } else { res.redirect('/') } %>
 
 <!-- Message Block -->
-<%# messages() %>
+<%- messages() %>
 
 <div>
-   <p>You're logged in</p>
-   
+   <p><a title="Click to manage Account" href="/account/update">Update Account</a></p>
+   <%if(account.account_type == "Employee"){ %>
+   <h2>Welcome <%=account.account_firstname%></h2>
+   <h3>Inventory Management</h3>
+   <p><a title="Click to manage Inventory" href="/inv/">Manage</a></p>
+   <%}%>
 </div>
