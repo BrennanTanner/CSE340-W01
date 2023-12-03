@@ -45,14 +45,12 @@ router.post(
 // Route to build inventory by classification view
 router.get(
    '/type/:classificationId',
-   utilities.checkLogin,
    utilities.handleErrors(invController.buildByClassificationId)
 );
 
 // Route to build details page
 router.get(
    '/detail/:invId',
-   utilities.checkLogin,
    utilities.handleErrors(invController.buildByInventoryId)
 );
 
