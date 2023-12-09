@@ -125,6 +125,49 @@ Util.buildItemGrid = async function (data) {
    return grid;
 };
 
+/* **************************************
+ * Build the comments view HTML
+ * ************************************ */
+Util.buildCommentList = async function (commentArray) {
+   let list;
+   list = '<div id="comments-display">';
+   if (commentArray.length) {
+      commentArray.forEach((comment) => {
+         list += '<div class="comment">';
+         list += '<div class="comment-title">';
+
+         list += '<h4>' + comment.commenter + '</h4>';
+         list += '<h5>' + comment.comment_date + '</h5>';
+         list += '</div>';
+         list += '<p>' + comment.comment_body + '</p>';
+         
+         list += '</div>';
+      });
+   } else {
+      list += '<p class="notice">No comments yet</p>';
+   }
+   list += '</div>';
+   return list;
+};
+
+/* **************************************
+ * Build the new comment form HTML
+ * ************************************ */
+Util.buildCommentForm = async function (inv_id) {
+   let form;
+
+   form = '<div class="comment-form">';
+   form += `<form action="/inv/new-comment/${inv_id}" method="post">`;
+
+   form += '<label for="comment_body">New Comment</label>';
+   form +=
+      '<textarea id="comment_body"  name="comment_body" rows="4" cols="50" required ></textarea>';
+   form += '<input type="submit" class="btn-main" value="Comment" />';
+   form += '</form>';
+
+   return form;
+};
+
 /* ****************************************
  * Middleware For Handling Errors
  * Wrap other function in this for
@@ -140,7 +183,7 @@ Util.checkAdmin = (req, res, next) => {
    if (res.locals.accountData.account_type == 'Client') {
       req.flash(
          'notice',
-         'You don\'t have access to this page, try logging in with a different account.'
+         "You don't have access to this page, try logging in with a different account."
       );
       return res.redirect('/account/');
    }

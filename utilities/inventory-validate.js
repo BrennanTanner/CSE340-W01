@@ -99,6 +99,20 @@ validate.vehicleRules = () => {
    ];
 };
 
+validate.commentRules = () => {
+   return [
+      // only alphabetic allowed
+
+      body('comment_body')
+         .trim()
+         .isLength({ min: 1, max: 255 })
+         .withMessage(
+            "Comment can't be empty or longer than 225 characters."
+         ),
+
+   ];
+};
+
 /* ******************************
  * Check vehicle data and return errors
  * ***************************** */
@@ -184,6 +198,22 @@ validate.checkUpdateData = async (req, res, next) => {
          inv_color,
          inv_id,
       });
+      return;
+   }
+   next();
+};
+
+/* ******************************
+ * Check vehicle data and return errors
+ * ***************************** */
+validate.checkCommentData = async (req, res, next) => {
+   const {
+      inv_id
+   } = req.body;
+   let errors = [];
+   errors = validationResult(req);
+   if (!errors.isEmpty()) {
+      res.redirect(`/inv/detail/${inv_id}`);
       return;
    }
    next();

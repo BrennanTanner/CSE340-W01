@@ -71,6 +71,10 @@ router.get(
 //post updated inventory
 router.post('/update/', utilities.handleErrors(invController.updateInventory));
 
+//post new comment
+router.post('/new-comment/:inv_id',   inventoryValidate.commentRules(),
+inventoryValidate.checkCommentData, utilities.handleErrors(invController.newComment));
+
 //get view for deleting inventory
 router.get(
    '/delete/:inv_id',

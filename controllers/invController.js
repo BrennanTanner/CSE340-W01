@@ -60,12 +60,17 @@ invCont.buildByInventoryId = utilities.handleErrors(async function (
    if (res.locals.loggedin) {
       loggedin = true;
    }
+   const commentList = await utilities.buildCommentList(await invModel.getCommentsByInvId(data[0].inv_id));
+   const commentForm = await utilities.buildCommentForm(data[0].inv_id);
    res.render('./inventory/details', {
       title,
       nav,
       grid,
       loggedin,
       account: res.locals.accountData,
+      commentList,
+      commentForm,
+      errors: null
    });
 });
 
@@ -117,7 +122,49 @@ invCont.buildEditVehicle = async function (req, res, next) {
       classification_id: itemData[0].classification_id,
    });
 };
-
+/* ***************************
+ *  Post Comment Data
+ * ************************** */
+invCont.newComment = async function (req, res, next) { 
+   const inventory_id = parseInt(req.params.inv_id);
+   const data = await invModel.getItemByInventoryId(inventory_id);
+   const grid = await utilities.buildItemGrid(data);
+   let nav = await utilities.getNav();
+   let title = 'Car not found';
+   if (data.length) {
+      title = data[0].inv_make + ' ' + data[0].inv_model;
+   }
+   let loggedin = false;
+   if (res.locals.loggedin) {
+      loggedin = true;
+   }
+   const commentList = await utilities.buildCommentList(await invModel.getCommentsByInvId(inventory_id));
+   const commentForm = await utilities.buildCommentForm(inventory_id);
+   const commentData = {comment_body: req.body.comment_body, inv_id: inventory_id, commenter_id: res.locals.accountData.account_id, commenter: res.locals.accountData.account_firstname}
+      const regResult = await invModel.createComment(
+         commentData
+      );
+   
+      if (regResult) {
+         req.flash(
+            'notice',
+            `Comment Posted`
+         );
+         res.redirect(`/inv/detail/${inventory_id}`);
+      } else {
+         req.flash('notice', 'Sorry, there was an error posting your comment.');
+         res.render(`/inventory/details`, {
+            title,
+            nav,
+            grid,
+            loggedin,
+            account: res.locals.accountData,
+            commentList,
+            commentForm,
+            errors: null,
+         });
+}
+}
 /* ***************************
  *  Update Inventory Data
  * ************************** */
@@ -227,7 +274,13 @@ invCont.deleteInventory = async function (req, res, next) {
          'notice',
          `The ${inv_year} ${itemName} was successfully deleted.`
       );
+      let loggedin = false;
+      if (res.locals.loggedin) {
+         loggedin = true;
+      }
       res.render('management/management', {
+         loggedin,
+         account: res.locals.accountData,
          title: 'Vehicle Management',
          nav,
          classes,
@@ -235,8 +288,14 @@ invCont.deleteInventory = async function (req, res, next) {
       });
    } else {
       const itemName = `${inv_make} ${inv_model}`;
+      let loggedin = false;
+      if (res.locals.loggedin) {
+         loggedin = true;
+      }
       req.flash('notice', 'Sorry, the delete failed.');
       res.status(501).render('inventory/delete-confirm', {
+         loggedin,
+         account: res.locals.accountData,
          title: 'Delete ' + itemName,
          nav,
          classificationSelect: null,

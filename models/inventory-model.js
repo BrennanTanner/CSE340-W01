@@ -93,4 +93,48 @@ async function deleteInventory(inv_id) {
   }
 }
 
-module.exports = {getClassifications, getInventoryByClassificationId, getItemByInventoryId, updateInventory, deleteInventory};
+/* ***************************
+ *  Post Comment Data
+ * ************************** */
+async function createComment(data) {
+  const {
+     comment_body,
+     inv_id,
+     commenter_id,
+     commenter
+  } = data;
+
+  const comment_date = new Date().toLocaleString();
+  try {
+     const data = await pool.query(
+        `INSERT INTO public.comments(comment_body, inv_id, commenter, commenter_id, comment_date) VALUES ($1,$2,$3,$4,$5)`,
+        [
+          comment_body,
+          inv_id,
+          commenter,
+          commenter_id,
+          comment_date
+        ]
+     );
+     return data.rows;
+  } catch (error) {
+     console.error('createComment error ' + error);
+  }
+}
+
+/* ***************************
+ *  Get all comments by inv_id
+ * ************************** */
+async function getCommentsByInvId(inv_id) {
+  try {
+    const data = await pool.query(
+      `SELECT * FROM public.comments 
+      WHERE inv_id = $1`,
+      [inv_id]
+    )
+    return data.rows
+  } catch (error) {
+    console.error("getclassificationsbyid error " + error)
+  }
+}
+module.exports = {getClassifications, getInventoryByClassificationId, getItemByInventoryId, updateInventory, deleteInventory, createComment, getCommentsByInvId};

@@ -10,13 +10,15 @@ require('dotenv').config();
 async function buildAccountManagment(req, res, next) {
    let nav = await utilities.getNav();
 
-   console.log(res.locals.accountData);
-
+   if (res.locals.loggedin) {
+      loggedin = true;
+   }
    res.render('account/account-management', {
       title: 'Account',
       nav,
       errors: null,
       account: res.locals.accountData,
+      loggedin
    });
 }
 
@@ -34,6 +36,7 @@ async function buildLogin(req, res, next) {
       nav,
       errors: null,
       loggedin,
+      account: res.locals.accountData,
    });
 }
 
@@ -44,12 +47,18 @@ async function accountLogin(req, res) {
    let nav = await utilities.getNav();
    const { account_email, account_password } = req.body;
    const accountData = await accountModel.getAccountByEmail(account_email);
+   let loggedin = false;
+   if (res.locals.loggedin) {
+      loggedin = true;
+   }
    if (!accountData) {
       req.flash('notice', 'Please check your credentials and try again.');
       res.status(400).render('account/login', {
          title: 'Login',
          nav,
          errors: null,
+         loggedin,
+      account: res.locals.accountData,
          account_email,
       });
       return;
@@ -91,6 +100,7 @@ async function buildRegister(req, res, next) {
       nav,
       errors: null,
       loggedin,
+       account: res.locals.accountData,
    });
 }
 
@@ -116,10 +126,16 @@ async function registerAccount(req, res) {
          'notice',
          'Sorry, there was an error processing the registration.'
       );
+      let loggedin = false;
+      if (res.locals.loggedin) {
+         loggedin = true;
+      }
       res.status(500).render('account/register', {
          title: 'Registration',
          nav,
          errors: null,
+         loggedin,
+         account: res.locals.accountData,
       });
    }
 
@@ -129,7 +145,10 @@ async function registerAccount(req, res) {
       account_email,
       hashedPassword
    );
-
+   let loggedin = false;
+   if (res.locals.loggedin) {
+      loggedin = true;
+   }
    if (regResult) {
       req.flash(
          'notice',
@@ -139,6 +158,8 @@ async function registerAccount(req, res) {
          title: 'Login',
          nav,
          errors: null,
+         loggedin,
+         account: res.locals.accountData,
       });
    } else {
       req.flash('notice', 'Sorry, the registration failed.');
@@ -146,6 +167,8 @@ async function registerAccount(req, res) {
          title: 'Registration',
          nav,
          errors: null,
+         loggedin,
+         account: res.locals.accountData,
       });
    }
 }
@@ -180,6 +203,10 @@ async function updateAccount(req, res) {
       account_id,
    } = req.body;
 
+   let loggedin = false;
+   if (res.locals.loggedin) {
+      loggedin = true;
+   }
    const regResult = await accountModel.updateAccount(
       account_firstname,
       account_lastname,
@@ -193,7 +220,8 @@ async function updateAccount(req, res) {
          title: 'Account',
          nav,
          errors: null,
-         account: res.locals.accountData
+         account: res.locals.accountData,
+         loggedin
       });
    } else {
       req.flash('notice', 'Sorry, the update failed.');
@@ -201,6 +229,7 @@ async function updateAccount(req, res) {
          title: 'Update Account',
          nav,
          errors: null,
+         loggedin,
          account: res.locals.accountData
       });
    }
@@ -217,6 +246,10 @@ async function changePassword(req, res) {
    } = req.body;
 
    // Hash the password before storing
+   let loggedin = false;
+   if (res.locals.loggedin) {
+      loggedin = true;
+   }
    let hashedPassword;
    try {
       // regular password and cost (salt is generated automatically)
@@ -227,6 +260,7 @@ async function changePassword(req, res) {
          title: 'Update Account',
          nav,
          errors: null,
+         loggedin,
          account: res.locals.accountData
       });
    }
@@ -241,6 +275,7 @@ async function changePassword(req, res) {
          title: 'Account',
          nav,
          errors: null,
+         loggedin,
          account: res.locals.accountData
       });
    } else {

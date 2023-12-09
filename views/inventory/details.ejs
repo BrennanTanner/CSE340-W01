@@ -1,13 +1,14 @@
 <!-- heading -->
 <% if (title) { %>
-   <h1><%= title %></h1>
-   <% } else {
-     res.redirect('/')
-   } %>
+<h1><%= title %></h1>
+<% } else { res.redirect('/') } %>
 
 <!-- Message Block -->
 <%# messages() %>
-
+<%- messages() %>
 <!-- inventory items built in utils -->
 <%- grid %>
-
+<%-commentList %>
+<%if(loggedin){%>
+<%-commentForm %>
+<%}%>
